@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>COMEÇO-FIM</title>
+		<style>
+			*{
+				margin: 0 auto;
+			}
+			body{
+				background: black;
+				color: white;
+				font-size: 1em;
+				font-family: serif;
+			}
+			div#main{
+				background: white;
+				min-width: 100vw;
+				min-height: 100vh;
+				display: inline-flex;
+				flex-direction: column;
+				float: left;
+				color: black;
+			}
+			div#table{
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				flex-wrap: wrap;
+				max-width: fit-content;
+			}
+			div#table > div.line{
+				width: max-content;
+				border: 0;
+				border-radius: 16px;
+				position: relative;
+				display: flex;
+				flex-direction: row;
+				padding: 10px;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+				margin: 5px;
+			}
+			div.line > div.key{
+				display: flex;
+				justify-items: center;
+				align-items: center;
+				padding: 15px;
+				border: 3px solid black;
+				border-radius: 10px;
+				margin: 5px;
+				position: relative;
+				width: 10px;
+				height: 10px;
+				border-bottom: 5px solid black;
+				font-size: 1em;
+				font-weight: bold;
+				user-select: none;
+				animation: displaying ease 300ms;
+			}
+			div#table{
+				border: 0;
+			}
+			@keyframes displaying {
+				from {
+					transform: scale(1.5) translateX(1.5px);
+				}
+
+				to {
+					transform: scale(1.0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id = "main">
+			<small>seavertex llc. - COMEÇO-FIM</small>
+			<div id = "table">
+			</div>
+		</div>
+<script>
+const CHARS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+'V', 'W', 'X', 'Y', 'Z', 'Ç', 'Ã', 'Â', 'Ô', 'Õ', 'É', 'È', 'Ì', 'Í']
+var game = {
+	charEmpty: "-",
+	usedWords: [],
+	latestWord: "",
+	endMtach: false,
+	digiteds: []
+}
+const WORDS = [
+'ATUAR', 'CANTAR', 'INSERIR', 'MUDAR', 'DITAR', 'DIZER', 'QUERER', 'CHORAR', 'CHOCAR', 'CHOVER', 'CORRER', 'CAÇAR', 'CAVAR', 'CAIR', 'CORTAR', 'CHAMAR', 'SONHAR', 'ANDAR', 'COMEÇAR', 'COÇAR', 'ASSASSINAR', 'AMAR', 'ACHAR', 'CALVAR', 'SORVETE', 'SOCAR', 'SENTIR', 'ALMEJAR', 'INVENTAR', 'COMEMORAR', 'CALEJAR', 'LAMBER', 'CHUPAR', 'CURVAR', 'CALÇAR', 'CONHECER', 'COMER', 'ESCOVAR', 'ENXERGAR', 'SORRIR', 'SALVAR', 'CURAR', 'COLAR', 'DESEJAR'
+]
+
+const lines = 5
+var key_selected = {
+	line: 0,
+	column: 0
+}
+
+var keysArray = []
+var typed = 0
+
+function WordBlock(ln, count, node, word){
+	var line = []
+	for (let j = 0; j < count; j++){
+		const div_key = document.createElement('div')
+		div_key.className = "key k" + j
+				
+		div_key._enableType = true
+		div_key._line = ln
+		div_key._column = j
+
+		div_key.addEventListener('click', (e) => {
+			if (e.target._enableType) {
+				//key_selected.line = ln
+				//key_selected.column = j
+				//console.log(key_selected)
+				}
+			})
+
+			div_key.innerText = game.charEmpty
+
+			if (keysArray.length == 0) {
+				if (j == 0) div_key.innerText = word[0]//[Math.floor(Math.random() * (word.length - 1))]
+				
+				if (j == word.length - 1) {
+					div_key.innerText = word[word.length - 1]
+				}
+
+			}
+
+			node.appendChild(div_key)
+
+			line.push(div_key)
+	}
+
+	return line
+}
+
+function NewLine(){
+	const div_line = document.createElement('div')
+	div_line.className = "line"
+	
+
+	if (keysArray.length < 1) {
+		var rand_word = WORDS[Math.floor(Math.random() * (WORDS.length - 1))]
+
+		//console.log(rand_word.length, rand_word, rand_word[0], rand_word[rand_word.length - 1])
+
+		keysArray.push(WordBlock(keysArray.length, rand_word.length, div_line, rand_word))
+
+		game.usedWords.push(rand_word)
+
+		//game.latestWord = rand_word
+
+	} else {
+		var choosedWord = ""
+		//console.log("UMA VEZZZZZZZZZZZZZZZZZ")
+		for (let i = 0; i < WORDS.length; i++) {
+			if (choosedWord.length < 1) {
+				if (!game.usedWords.includes(WORDS[i])){
+					var rangedWord = WORDS[i]
+
+					if (rangedWord.length >= game.latestWord.length && rangedWord[0] == game.latestWord[0] && rangedWord[game.latestWord.length - 1] == game.latestWord[game.latestWord.length - 1]) {
+						
+						console.log(game.latestWord, " @ ", rangedWord)
+
+						choosedWord = WORDS[i]
+						
+						keysArray.push(WordBlock(keysArray.length, choosedWord.length, div_line, choosedWord))
+						
+						game.usedWords.push(choosedWord)
+						//console.log(choosedWord)
+					}
+				}
+			}
+		}
+	}
+		
+
+	if (div_line.childNodes.length > 0) {
+		document.querySelector('#table').appendChild(div_line)
+	} else {
+		document.querySelector('body').innerText = "Todas as palavras foram digitadas! Parabéns!"
+		game.endMtach = true
+	}
+}
+
+function isEqualsWords(a, b){
+	if (a == b || (a.length >= b.length && a[0] == b[0] && a[b.length - 1] == b[b.length - 1]))
+		return true
+}
+
+window.onload = () => {
+	NewLine()
+
+	window.addEventListener('keydown', (e) => {
+		if (!game.endMtach){
+			var block = keysArray[key_selected.line][key_selected.column]
+
+			if (block._enableType){
+				for (let i = 0; i < CHARS.length; i++){
+					if (e.key.toUpperCase() == CHARS[i]){
+						block.innerText = CHARS[i]
+
+						if (key_selected.column < (keysArray[key_selected.line].length - 1)) {
+							typed = 1
+						}
+					}
+				}
+
+				if (e.key == "Enter") {
+					var isNoWordsEmpty = true
+
+					for (let x = 0; x < keysArray[key_selected.line].length; x++) {
+						if (keysArray[key_selected.line][x].innerText == game.charEmpty) isNoWordsEmpty = false
+					}
+
+					if (isNoWordsEmpty){
+						var currentWord = ""
+						
+						for (let i = 0; i < keysArray[key_selected.line].length; i++) {
+							currentWord += keysArray[key_selected.line][i].innerText
+						}
+
+						console.log("Palavra digitada: ", currentWord)
+
+						if (game.latestWord != currentWord) game.latestWord = currentWord
+
+							if (WORDS.includes(currentWord) && !game.digiteds.includes(currentWord)) {
+								if (isEqualsWords(currentWord, game.usedWords[game.usedWords.length - 1])) {
+									game.latestWord = currentWord
+										
+									var h = keysArray[key_selected.line].length
+
+									for (let j = 0; j < h; j++){
+										keysArray[key_selected.line][j]._enableType = false
+									}
+
+									key_selected.column = 0
+									key_selected.line++
+
+									//console.log('is he???????????')
+
+									game.digiteds.push(currentWord)
+
+									NewLine()
+
+
+									//console.log("Nova linha gerada")
+								}
+							}
+						}
+					}
+				}
+
+			for (let nl = 0; nl < keysArray.length; nl++){
+				for (let nc = 0; nc < keysArray[nl].length; nc++){
+
+					if (nl == key_selected.line && nc == key_selected.column){
+						var k = keysArray[nl][nc]
+
+						
+
+							if (e.key == "Backspace") {
+								if (key_selected.column > 0) {
+									if (keysArray[key_selected.line][key_selected.column]._enableType) {
+										keysArray[key_selected.line][key_selected.column].innerText = game.charEmpty
+										typed = -1
+										//console.log(typed)
+									}
+								}
+							}
+						}
+					}
+				}
+		}
+	})
+
+	window.addEventListener('keyup', (e) => {
+		if (typed != 0){
+			if ((key_selected.column > -1) && (key_selected.column < keysArray[key_selected.line].length - 0)) {
+				key_selected.column = key_selected.column + typed
+				//console.log(key_selected.column, typed)
+				//}
+				typed = 0
+			}
+		}
+	})
+}
+
+
+
+var update = () => {
+	for (let line = 0; line < keysArray.length; line++){
+		for (let column = 0; column < keysArray[line].length; column++){
+			var key = keysArray[line][column]
+
+			if (key._line == key_selected.line && key._column == key_selected.column) {
+				key.style.borderColor = "gray"
+				key.style.top = "-5px"
+
+			} else {
+				key.style.borderColor = "black"
+				key.style.top = "0px"
+			}
+
+			if (!key._enableType) key.style.opacity = 0.3
+			if (column == 0 || column == game.latestWord.length - 1) key.style.borderColor = "green"
+
+
+		}
+	}
+
+	window.requestAnimationFrame(update)
+}
+
+window.requestAnimationFrame(update)
+
+</script>
+	</body>
+</html>
