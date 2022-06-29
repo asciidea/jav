@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Ubuntu" />
 		<title>javascript words</title>
 		<style>
 			*{
@@ -10,7 +11,7 @@
 				background: black;
 				color: white;
 				font-size: 1em;
-				font-family: serif;
+				font-family: 'Ubuntu', serif;
 			}
 			div#main{
 				background: #111;
@@ -73,7 +74,7 @@
 	</head>
 	<body>
 		<div id = "main">
-			<small>javascript.words</small>
+			<small>Digite a palavra que vem à mente</small>
 			<div id = "table">
 			</div>
 		</div>
@@ -88,7 +89,11 @@ var game = {
 	digiteds: []
 }
 const WORDS = [
-'ATUAR', 'CANTAR', 'INSERIR', 'MUDAR', 'DITAR', 'DIZER', 'QUERER', 'CHORAR', 'CHOCAR', 'CHOVER', 'CORRER', 'CAÇAR', 'CAVAR', 'CAIR', 'CORTAR', 'CHAMAR', 'SONHAR', 'ANDAR', 'COMEÇAR', 'COÇAR', 'ASSASSINAR', 'AMAR', 'ACHAR', 'CALVAR', 'SOFRER', 'SOCAR', 'SENTIR', 'ALMEJAR', 'INVENTAR', 'COMEMORAR', 'CALEJAR', 'LAMBER', 'CHUPAR', 'CURVAR', 'CALÇAR', 'CONHECER', 'COMER', 'ESCOVAR', 'ENXERGAR', 'SORRIR', 'SALVAR', 'CURAR', 'COLAR', 'DESEJAR', 'CONTAR', 'CRIAR'
+'ATUAR', 'CANTAR', 'INSERIR', 'MUDAR', 'DITAR', 'DIZER', 'QUERER', 'CHORAR', 'CHOCAR', 'CHOVER', 'CORRER',
+'CAÇAR', 'CAVAR', 'CAIR', 'CORTAR', 'CHAMAR', 'SONHAR', 'ANDAR', 'COMEÇAR', 'COÇAR', 'ASSASSINAR', 'AMAR',
+'ACHAR', 'CALVAR', 'SOFRER', 'SOCAR', 'SENTIR', 'ALMEJAR', 'INVENTAR', 'COMEMORAR', 'CALEJAR', 'LAMBER',
+'CHUPAR', 'CURVAR', 'CALÇAR', 'CONHECER', 'COMER', 'ESCOVAR', 'ENXERGAR', 'SORRIR', 'SALVAR', 'CURAR',
+'COLAR', 'DESEJAR', 'CONTAR', 'CRIAR', 'SALTAR', 'SERVIR', 'CHEGAR'
 ]
 
 const lines = 5
@@ -297,16 +302,16 @@ var update = () => {
 			var key = keysArray[line][column]
 
 			if (key._line == key_selected.line && key._column == key_selected.column) {
-				key.style.borderColor = "gray"
+				key.style.borderColor = "white"
 				key.style.top = "-5px"
 
 			} else {
-				key.style.borderColor = "black"
+				key.style.borderColor = "gray"
 				key.style.top = "0px"
 			}
 
 			if (!key._enableType) key.style.opacity = 0.3
-			if (column == 0 || column == game.latestWord.length - 1) key.style.borderColor = "green"
+			if (column == 0 || column == game.latestWord.length - 1) key.style.borderColor = "#33aaff"
 
 
 		}
